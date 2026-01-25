@@ -1,43 +1,64 @@
-# Simple Calculator using Python
+# To-Do List Application using Python
 
 def display_menu():
-    print("\nCALCULATOR MENU")
-    print("1. Addition")
-    print("2. Subtraction")
-    print("3. Multiplication")
-    print("4. Division")
+    print("\nTO-DO LIST MENU")
+    print("1. Add a task")
+    print("2. View tasks")
+    print("3. Mark task as completed")
+    print("4. Delete a task")
     print("5. Exit")
+
+tasks = []
 
 while True:
     display_menu()
     choice = input("Enter your choice (1-5): ")
 
-    if choice == "5":
-        print("Exiting the calculator.")
-        break
+    # Add a task
+    if choice == "1":
+        task_name = input("Enter the task: ")
+        tasks.append({"task": task_name, "status": "Pending"})
+        print(f"Task '{task_name}' added successfully.")
 
-    if choice in ["1", "2", "3", "4"]:
-        num1 = float(input("Enter the first number: "))
-        num2 = float(input("Enter the second number: "))
+    # View tasks
+    elif choice == "2":
+        if len(tasks) == 0:
+            print("No tasks available.")
+        else:
+            print("\nTask List:")
+            for index, task in enumerate(tasks, start=1):
+                print(f"{index}. {task['task']} - {task['status']}")
 
-        if choice == "1":
-            result = num1 + num2
-            print(f"Result: {num1} + {num2} = {result}")
-
-        elif choice == "2":
-            result = num1 - num2
-            print(f"Result: {num1} - {num2} = {result}")
-
-        elif choice == "3":
-            result = num1 * num2
-            print(f"Result: {num1} * {num2} = {result}")
-
-        elif choice == "4":
-            if num2 != 0:
-                result = num1 / num2
-                print(f"Result: {num1} / {num2} = {result}")
+    # Mark task as completed
+    elif choice == "3":
+        if len(tasks) == 0:
+            print("No tasks to update.")
+        else:
+            task_no = int(input("Enter task number to mark as completed: "))
+            if 1 <= task_no <= len(tasks):
+                task_name = tasks[task_no - 1]["task"]
+                tasks[task_no - 1]["status"] = "Completed"
+                print(f"Task '{task_name}' has been marked as completed.")
             else:
-                print("Error: Division by zero is not allowed.")
+                print("Invalid task number.")
+
+    # Delete a task
+    elif choice == "4":
+        if len(tasks) == 0:
+            print("No tasks to delete.")
+        else:
+            task_no = int(input("Enter task number to delete: "))
+            if 1 <= task_no <= len(tasks):
+                deleted_task = tasks.pop(task_no - 1)
+                print(f"Task '{deleted_task['task']}' has been deleted.")
+            else:
+                print("Invalid task number.")
+
+    # Exit
+    elif choice == "5":
+        print("Exiting the application.")
+        break
 
     else:
         print("Please enter a valid option.")
+
